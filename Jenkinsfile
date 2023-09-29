@@ -20,6 +20,7 @@ pipeline {
             steps {
                 echo "Testing application with version ${VERSION}"
                 echo "My credentials: ${SERVER_CREDENTIALS}"
+                sh "${SERVER_CREDENTIALS}"
             }
         }
         stage('Deploy') {
