@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo "Testing application with version ${VERSION}"
  
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'git:996e1f714b08e971ec79e3bea686287e66441f043177999a13dbc546d8fe402a', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'6f0640b7-66ee-4d3c-9527-b9c452cc8b62', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                     sh "some script ${USERNAME} ${PASSWORD}"
                 }
             }
