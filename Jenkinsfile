@@ -19,9 +19,9 @@ pipeline {
             steps {
                 echo "Testing application with version ${VERSION}"
                 withCredentials([
-                    usernamepassword(credentials: 'git:996e1f714b08e971ec79e3bea686287e66441f043177999a13dbc546d8fe402a', usernameVariable: USER, passwordVariable: PWD)
+                    usernamePassword(credentialsId: 'git:996e1f714b08e971ec79e3bea686287e66441f043177999a13dbc546d8fe402a', usernameVariable: 'USER', passwordVariable: 'PWD')
                 ]) {
-                    sh "some script ${USER} ${PWD}"
+                    sh "some script \${USER} \${PWD}"
                 }
             }
         }
