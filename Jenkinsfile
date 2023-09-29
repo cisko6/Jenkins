@@ -19,9 +19,9 @@ pipeline {
             steps {
                 echo "Testing application with version ${VERSION}"
  
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'git:996e1f714b08e971ec79e3bea686287e66441f043177999a13dbc546d8fe402a', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                sh "some script ${USERNAME} ${PASSWORD}"
-            }
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'git:996e1f714b08e971ec79e3bea686287e66441f043177999a13dbc546d8fe402a', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                    sh "some script ${USERNAME} ${PASSWORD}"
+                }
             }
         }
         stage('Deploy') {
