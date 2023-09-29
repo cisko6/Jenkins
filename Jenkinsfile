@@ -18,11 +18,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo "Testing application with version ${VERSION}"
-                withCredentials([
-                    	usernamepassword(credentials: '6f0640b7-66ee-4d3c-9527-b9c452cc8b62', usernameVariable: USER, passwordVariable: PWD)
-                	]) {
-                    		sh "some script ${USER} ${PWD}"
-                	}
             }
         }
         stage('Deploy') {
