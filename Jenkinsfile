@@ -6,7 +6,7 @@ pipeline {
             steps {
                 when {
                     expression {
-                        GIT_BRANCH == 'main'
+                        BRANCH_NAME == 'main'
                     }
                 }
                 echo 'Building the application...'
