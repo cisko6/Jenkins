@@ -1,3 +1,4 @@
+def gv
 
 pipeline {
     agent any
@@ -5,6 +6,14 @@ pipeline {
         VERSION = "1.3.0"
     }
     stages {
+        stage('Init') {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
+
         stage('Build') {
             when {
                 expression {
@@ -15,17 +24,22 @@ pipeline {
                 echo 'Building the application...'
             }
         }
+
         stage('Test') {
             steps {
                 echo "Testing application with version ${VERSION}"
             }
         }
+
         stage('Deploy') {
             steps {
-                echo 'xd'
+                script {
+                    gv.DeployApp()
+                }
             }
         }
     }
+
     post {
         always {
             echo 'POST - always sa vykonal'
