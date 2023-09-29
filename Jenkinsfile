@@ -17,4 +17,15 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            echo 'POST - always sa vykonal'
+        }
+        success {
+            echo 'POST - success sa vykonal'
+        }
+        failure {
+            echo 'POST - failure sa vykonal'
+        }
+    }
 }
