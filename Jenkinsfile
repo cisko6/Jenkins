@@ -4,11 +4,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                when {
+"""                when {
                     expression {
                         BRANCH_NAME == 'main'
                     }
-                }
+                }"""
                 echo 'Building the application...'
             }
         }
