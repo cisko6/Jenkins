@@ -1,11 +1,11 @@
-
+CODE_CHANGES = GetGitChanges()
 pipeline {
     agent any
     stages {
         stage('Build') {
             when {
                 expression {
-                    BRANCH_NAME == 'dev'
+                    BRANCH_NAME == 'main' && CODE_CHANGES == true
                 }
             }
             steps {
