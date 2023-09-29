@@ -1,4 +1,4 @@
-CODE_CHANGES = GetGitChanges()
+
 pipeline {
     agent any
     stages {
@@ -6,7 +6,7 @@ pipeline {
             steps {
                 when {
                     expression {
-                        BRANCH_NAME == 'main' && CODE_CHANGES == true
+                        BRANCH_NAME == 'main'
                     }
                 }
                 echo 'Building the application...'
