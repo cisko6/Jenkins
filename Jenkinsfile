@@ -28,10 +28,14 @@ pipeline {
             echo 'POST - always sa vykonal'
         }
         success {
-            echo 'POST - success sa vykonal'
+            script {
+                echo 'POST - success sa vykonal'
+            }
         }
         failure {
-            echo 'POST - failure sa vykonal'
+            script {
+                echo 'POST - failure sa vykonal'
+            }
         }
     }
 }
