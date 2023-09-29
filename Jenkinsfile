@@ -1,11 +1,14 @@
-CODE_CHANGES = GetGitChanges()
+
 pipeline {
     agent any
+    environment {
+        VERSION = "1.3.0"
+    }
     stages {
         stage('Build') {
             when {
                 expression {
-                    BRANCH_NAME == 'main' && CODE_CHANGES == true
+                    BRANCH_NAME == 'main'
                 }
             }
             steps {
@@ -14,7 +17,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'IOIOIOIOIOIOIOIOIO'
+                echo "Testing application with version ${VERSION}"
             }
         }
         stage('Deploy') {
