@@ -1,0 +1,90 @@
+token github - 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
+
+
+SONARQUBE
+	- tool that performs automated code reviews to detect code smells, bugs, security vulnerabilities, and other issues in source code
+
+MAVEN
+	- build a application (mostly JAVA)
+	- Jenkins can be configured to monitor source code repositories for changes. When changes are detected, Jenkins can trigger a build process using Maven
+	- Maven helps manage dependencies and build artifacts (e.g., JAR files)
+	- Jenkins can use Maven to package application artifacts and prepare them for deployment
+	- Maven Integration plugin
+
+WEBHOOK
+	- slúži na posielanie updatu z GITu na Jenkins server
+	- tym padom Jenkins nemusí sa pozerať či je nejaky update v repozitari, ale GIT mu to oznámi
+
+GROOVY SCRIPT IMPORT
+	- GROOVY SYNTAX sa píše do SCRIPT {}
+	- v .groovy file môžeme použiť ENVIRONMENTAL variables vytvorené v Jenkinsfile
+
+	1) vytvorime si file .groovy
+		def DeployApp() {
+    			echo "deploying the application with version ${VERSION} using groovy script..."
+			}
+		return this
+	2) do stepu napr Init vložíme -> script { gv = load "script.groovy" }
+	3) ak chceme variable gv použiť aj v iných stepoch tak definujeme pred pipeline -> def gv
+
+
+TOOLS
+	- tools { maven } # gradle, jdk
+
+PARAMETERS
+	- parameters { string(name: 'VERSION', defaultValue: '', description: 'version to deploy on prod') 
+		       choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+		       booleanParam(name: 'executeTests', defaultValue: true, description: '')
+		      }
+	- params.VERSION
+	- používajú sa v WHEN -> EXPRESSION
+
+
+ENVIRONMENTAL VARIABLES
+	1) out-of-the box
+		- http://localhost:8080/env-vars.html/
+	2) vlastné
+		- píše sa za pipeline
+		- environment { VERSION = "1.3.0" }
+		- echo "Testing application with version ${VERSION}"
+
+	- Ak potrebujeme env iba v jedno STAGI, tak použijeme wrapper: (nefungovalo mi)
+		-withCredentials([
+                    	usernamepassword(credentials: '[ID credentials typu meno heslo]', usernameVariable: USER, passwordVariable: PWD)
+                	]) {
+                    		sh "some script ${USER} ${PWD}"
+                	}
+
+
+
+VYSELECTOVAŤ PRE KOHO SA MA STAGE SPRAVIT
+	- píše sa do samotného stagu
+	- napr -> when{ expression { BRANCH_NAME == 'main' || BRANCH_NAME == 'dev'  } }
+
+
+POST
+	- always - sa vykoná vždy (či už succ alebo fail)
+	- success - sa vykoná iba keď prebehne úspešne
+	- failure - sa vykoná iba keď zlyhá
+
+PLUG-INS
+	- Blue Ocean
+	- Git server
+	- Docker
+	- Docker Compose Build Step 
+
+INSTALLATION ISSUES JENKINS WINDOWS
+	- nešlo prihlásiť používateľa (zlé meno alebo heslo)
+		1) trebalo zistiť názov používateľa - C:\Users
+		2) dať užívateľovi privilégiá -> Local Security Policy -> Local Policies -> User Right Assignment -> Log on as a service -> add user or group -> [meno PC z bodu 1] -> OK -> APPLY
+	- Pri inštalácií - service failed to start, not sufficient privileges
+		- https://stackoverflow.com/questions/64308841/jenkins-failed-to-start-verify-that-you-have-sufficient-privileges-to-start-sy
+		- nefungovalo
+
+INSTALLATION WHICH WORKED WINDOWS
+	- JAVA JDK 17
+	- Jenkins download - Generic Java package (.war)
+	- pridanie %JAVA_HOME% -> https://youtu.be/cy2257Y7I54?si=WgDHxh-wZMEaSHaS&t=444
+	- do CMD - java -jar jenkins.war
+
+

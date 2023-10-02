@@ -1,0 +1,12 @@
+SHELL PRIKAZY
+	- ps aux | grep [meno]	 	-> proces jenkins vypise aj na ktorom porte
+	- service  --status-all 	-> vypíše všetky services
+	- uname -m			-> zistenie architektury linuxu
+
+	- su - [nazov]			-> zmena používateľa
+	- sudo adduser [nazov]		-> vytvorenie užívateľa
+	- su - [TAB]			-> zistenie uzivatelov
+	- sudo usermod -aG sudo [meno]	-> pridanie používateľa do SUDO GRUPY
+	- getent group [grupa]		-> ziskanie počet uživatelov v grupe.. grupa=(docker, sudo,..) 	
+
+	- nc -vz 192.168.49.2 32567	-> ping s portom

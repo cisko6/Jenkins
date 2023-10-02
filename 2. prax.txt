@@ -1,0 +1,83 @@
+https://www.youtube.com/watch?v=jNPGo6A4VHc&t=670s	-> teoria 
+
+https://www.youtube.com/watch?v=JGQI5pkK82w		-> implementácia
+
+https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero/tree/main/java-maven-sonar-argocd-helm-k8s
+
+
+
+- tym že vybuildime java aplikáciu pomocou Mavenu, tak sa nam spravi nova zložka target, v ktorej je .jar súbor, ktorý je artifact, ktory bude v dockerfile použitý pomocou -> java -jar app.jar
+- jenkins potrebuje credentials iba od - sonarqube, docker, git(token) (od argocd nie)
+
+
+AUTOMATICKY TRIGGER PIPELINE - WEBHOOK
+	- Na GitHube -> go to repo -> settings -> webhooks -> add -> ngrok_ip/github-webhook/  (na ngrok presmerovať ich doménu na náš localhost) -> application.json -> apply
+	- Na Jenkins - GitHub Integration - plugin
+		     - V našom jobe -> Build Triggers - GitHub hook trigger for GITScm polling
+	- NGROK
+		- funguje ako proxy - maju na cloude server na ktory sa ja napojim a oni mi daju ich verejnu domenu ktora smeruje na moj localhost
+		- inštalácia - spravil som si nového usera (not necessary)
+				- sudo adduser ngrok, sudo usermod -aG sudo ngrok
+				- sudo usermod -aG sudo ngrok
+			     - wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz (link som našiel na ich stranke https://ngrok.com/download)
+			     - sudo tar xvzf ngrok-v3-stable-linux-amd64.tgz
+                             - sudo mv ngrok /usr/local/bin/
+			     - ngrok config add-authtoken [token] -> token som dostal na stranke ked som sa tam zaregistroval
+			     - ngrok http [port] -> pre mna 8080, kedze tam mi siel jenkins
+
+
+VIRTUALKA
+	- VYTVORENIE IMAGE (len na skusku na nasom pc)
+		- sudo apt install docker.io
+		- usermod -aG docker jenkins	-> do docker groupy priradi usera jenkins ( getent group docker )
+		- usermod -aG docker ubuntu
+		- systemctl restart docker
+
+	- MINIKUBE INSTALLATION (for user kubernetes, kt je v grupe sudo, docker)
+		- https://minikube.sigs.k8s.io/docs/start/
+	- KUBECTL INSTALLATION
+		- https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+	- ARGO CD (NEJDE MI PRIPOJIT KED MAM VIRTUALKU, V NEJ KUBERNETES CLUSTER, V NEJ ARGOCD -> riešenie: stiahnute na mojom PC)
+		- operatorhub.io -> Argo CD -> Install
+		- https://argocd-operator.readthedocs.io/en/latest/usage/basics/
+		- k edit svc example-argocd-server -> type: NodePort
+
+ARGOCD WINDOWS
+	- kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.8/manifests/install.yaml
+	- k edit service argocd-server -> type: NodePort
+	- heslo: k get secret -> k edit secret argocd-initial-admin-secret -> echo -n "secret" | base64 -d , rýchla alternatíva kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d 
+
+JENKINS
+	- PLUGINS
+		- Docker Pipeline
+		- SonarQube Scanner
+		-> po inštalovaní pluginov je treba reštartovať jenkins - http://localhost:8080/restart
+	- sudo apt-get remove --purge jenkins
+
+SONARQUBE
+	- meno heslo -> admin admin
+	- Prepojenie Jenkins a SonarQube - in SQ: vpravo hore -> my account -> security -> generate token(jenkins) -> copy
+					 - in Jenkins: manage jenkins -> credentials -> system -> Global credentials (unrestricted) -> add credentials -> secret text -> secret: (SQ token), ID: SonarQube -> Create 
+
+TESTS časť bola preskočená -> mohlo byt selenium
+
+
+ERRORS
+	1) permission denied while trying to connect to the Docker daemon socket at
+		- SOLUTION: trebalo pridať uživatela jenkins do grupy docker
+			- sudo usermod -aG docker jenkins
+	2) nešiel funkčný Jenkinsfile
+		- celá pipa fungovala, skúšal som webhook, ktorý fungoval, keď som ho vypol tak pipa už nešla tak ako predtým
+		- SOLUTION: vytvoril som nový job - Pipeline - a v nom to ide..
+
+
+
+
+
+
+
+
+
+
+
