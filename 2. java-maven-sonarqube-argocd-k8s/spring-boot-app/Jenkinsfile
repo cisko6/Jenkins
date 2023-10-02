@@ -1,20 +1,7 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3.9.4-eclipse-temurin-8-alpine'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-      //chatgpt args '--privileged --user root -v /var/run/docker.sock:/var/run/docker.sock'
-    }
-  }
+  agent any
 
   stages {
-    stage('Test Docker') {
-        steps {
-            sh 'usermod -aG docker root' // Add root user to docker group
-            sh 'docker --version' // Example Docker command inside the container
-            // Add your Maven build and other steps here
-        }
-    }
 
     stage('Checkout') {
       steps {
