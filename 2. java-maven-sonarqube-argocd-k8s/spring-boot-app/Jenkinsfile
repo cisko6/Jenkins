@@ -2,10 +2,18 @@ pipeline {
   agent {
     docker {
       image 'maven:3.9.4-eclipse-temurin-8-alpine'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+      args '--privileged --user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
+
   stages {
+
+    stage('Test Docker') {
+        steps {
+            sh 'docker --version'
+        }
+    }
+
     stage('Checkout') {
       steps {
         sh 'echo passed'
