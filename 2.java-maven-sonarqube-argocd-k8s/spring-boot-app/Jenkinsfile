@@ -2,12 +2,20 @@ pipeline {
   agent {
     docker {
       image 'abhishekf5/maven-abhishek-docker-agent:v1'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock --network host' -p 9000:9000 // mount Docker socket to access the host's Docker daemon
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock --network host' // mount Docker socket to access the host's Docker daemon
     }
   }
 
   stages {
-
+    stage('Debug') {
+        steps {
+            script {
+                container('your-docker-image') {
+                    sh 'curl http://localhost:9000'
+                }
+            }
+        }
+    }
     stage('Checkout') {
       steps {
         sh 'echo passed'
