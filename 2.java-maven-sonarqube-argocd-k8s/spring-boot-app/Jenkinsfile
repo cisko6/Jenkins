@@ -13,7 +13,7 @@ pipeline {
       steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
-        sh 'cd 2. java-maven-sonarqube-argocd-k8s/spring-boot-app && mvn clean package'
+        sh 'cd 2.java-maven-sonarqube-argocd-k8s/spring-boot-app && mvn clean package'
       }
     }
     stage('Static Code Analysis') {
