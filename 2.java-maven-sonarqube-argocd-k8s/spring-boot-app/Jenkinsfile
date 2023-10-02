@@ -7,16 +7,6 @@ pipeline {
   }
 
   stages {
-    stage('Debug') {
-        steps {
-            script {
-                container('your-docker-image') {
-                    sh 'ifconfig'
-                    sh 'netstat -tuln'
-                }
-            }
-        }
-    }
     stage('Checkout') {
       steps {
         sh 'echo passed'
